@@ -1,0 +1,174 @@
+# Class Diagram SALATIFY (Mermaid Format)
+
+```mermaid
+classDiagram
+    %% User Class
+    class User {
+        +int user_id
+        +str username
+        +str email
+        -str password
+        +str full_name
+        +str phone_number
+        +str profile_picture
+        +datetime created_at
+        +datetime last_login
+        +bool is_active
+    }
+    
+    %% JadwalSholat Class
+    class JadwalSholat {
+        +int schedule_id
+        +int user_id
+        +date tanggal
+        +time subuh
+        +time dzuhur
+        +time ashar
+        +time maghrib
+        +time isya
+        +timedelta waktu_selisih
+    }
+    
+    %% PengingatSholat Class
+    class PengingatSholat {
+        +int reminder_id
+        +int user_id
+        +time waktu_pengingat
+        +int menit_sebelum
+        +bool status_aktif
+        +str tipe
+    }
+    
+    %% Lokasi Class
+    class Lokasi {
+        +int lokasi_id
+        +int user_id
+        +float latitude
+        +float longitude
+        +float akurasi
+        +datetime waktu_deteksi
+        +datetime terakhir_update
+    }
+    
+    %% Kiblat Class
+    class Kiblat {
+        +int kiblat_id
+        +int user_id
+        +float sudut_kiblat
+        +tuple koordinat_kaaba
+        +str metode_hitung
+    }
+    
+    %% Wirid Class
+    class Wirid {
+        +int wirid_id
+        +str judul
+        +str teks_arab
+        +str teks_latin
+        +str terjemahan
+        +str kategori
+        +datetime created_at
+    }
+    
+    %% Dzikir Class
+    class Dzikir {
+        +int dzikir_id
+        +int user_id
+        +str jenis_dzikir
+        +int jumlah_ulang
+        +int jumlah_saat_ini
+        +datetime last_reminder
+    }
+    
+    %% RiwayatDzikir Class
+    class RiwayatDzikir {
+        +int riwayat_id
+        +int user_id
+        +date tanggal
+        +datetime waktu_mulai
+        +datetime waktu_selesai
+        +str jenis_dzikir
+        +int jumlah_ulang
+    }
+    
+    %% Doa Class
+    class Doa {
+        +int doa_id
+        +str judul
+        +str teks_arab
+        +str teks_latin
+        +str terjemahan
+        +str kategori
+        +bool is_favorit
+    }
+    
+    %% KategoriDoa Class
+    class KategoriDoa {
+        +int kategori_id
+        +str nama_kategori
+        +str deskripsi
+        +str warna_tampilan
+    }
+    
+    %% Surah Class
+    class Surah {
+        +int surah_id
+        +int nomor
+        +str nama
+        +str nama_latin
+        +int jumlah_ayat
+        +str tempat_turun
+        +str arti_ringkas
+    }
+    
+    %% Murottal Class
+    class Murottal {
+        +int murottal_id
+        +int surah_id
+        +str nama_reciter
+        +time durasi
+        +str path_audio
+        +bool is_favorite
+    }
+    
+    %% Pengaturan Class
+    class Pengaturan {
+        +int setting_id
+        +int user_id
+        +str tema
+        +str bahasa
+        +bool notifikasi
+        +bool suhbat
+        +bool musik_murottal
+    }
+    
+    %% Relasi antar class
+    
+    User "1" --> "*" JadwalSholat : "memiliki"
+    User "1" --> "*" PengingatSholat : "memiliki"
+    User "1" --> "*" Lokasi : "dimiliki"
+    User "1" --> "*" Kiblat : "terkait"
+    User "1" --> "*" Wirid : "mengakses"
+    User "1" --> "*" Dzikir : "miliki"
+    User "1" --> "*" RiwayatDzikir : "catat"
+    User "1" --> "*" Doa : "akses"
+    User "1" --> "*" KategoriDoa : "gunakan"
+    User "1" --> "*" Surah : "membaca"
+    User "1" --> "*" Murottal : "dengarkan"
+    User "1" --> "*" Pengaturan : "miliki"
+    
+    %% Relasi antar non-User classes
+    JadwalSholat "1" --> "1" User : "miliki"
+    PengingatSholat "1" --> "1" User : "miliki"
+    Lokasi "1" --> "1" User : "dimiliki"
+    Kiblat "1" --> "1" User : "miliki"
+    Dzikir "1" --> "1" User : "miliki"
+    RiwayatDzikir "1" --> "1" User : "catat"
+    Doa "1" --> "1" KategoriDoa : "kategorikan"
+    Surah "1" --> "1" Murottal : "dilengkapi"
+    Murottal "1" --> "1" Surah : "tersedia"
+    
+    note for KategoriDoa "Mendukung fitur pencarian" + 
+    note for Murottal "Memiliki fitur play/pause/stop" +
+    note for User "Aktor utama aplikasi"
+```
